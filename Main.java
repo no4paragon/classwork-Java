@@ -1,109 +1,91 @@
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
 
-public class Main
-{
-    
-    static void fistFunction() {
-        
-        int first[];  
-        first = new int[100];
-        boolean isInjective = true;
-        
-    	for(int i = 0; i < first.length; i++){
-    	    first[i] = 3 * (i + 1);
-    	}
-    	
-    	for (int i = 0; i < first.length; i++) { 
-    	    for (int j = i + 1; j < first.length; j++) { 
-    	        if (first[i] == first[j]) { 
-    	           
-    	            isInjective = false;
-    	        }
-    	    } 
-    	}
-    	
-    	if(isInjective == false){
-    	    System.out.println("This function is NOT injective!!");
-    	}else{
-    	    System.out.println("This function is injective!!");
-    	}
-    	
-    }
+public class Main{
 
-	static void secondFunction() {
-	    
-		int second[];  
-        second = new int[100];
-        boolean isInjective = true;
-        
-    	for(int i = 0; i < second.length; i++){
-    	    second[i] = (i + 1) * (i + 1);
-    	}
-    	
-    	for (int i = 0; i < second.length; i++) { 
-    	    for (int j = i + 1; j < second.length; j++) { 
-    	        if (second[i] == second[j]) { 
-    	            isInjective = false;
-    	        }
-    	    } 
-    	}
-    	
-    	if(isInjective == false){
-    	    System.out.println("This function is NOT injective!!"); 
-    	}else{
-    	    System.out.println("This function is injective!!"); 
-    	}
-	}
+    public static void main(String[] args) {
 
-    static void thirdFunction() {
-        
-    	int third[];  
-        third = new int[100];
-        boolean isInjective = true;
-        
-    	for(int i = 0; i < third.length; i++){
-    	    third[i] = (2*i) - 2 ;
-    	}
-    	
-    	for (int i = 0; i < third.length; i++) { 
-    	    for (int j = i + 1; j < third.length; j++) { 
-    	        if (third[i] == third[j]) { 
-    	            isInjective = false;
-    	        }
-    	    } 
-    	}
-    	
-    	if(isInjective == false){
-    	    System.out.println("This function is NOT injective!!");
-    	}else{
-    	    System.out.println("This function is injective!!"); 
-    	}
-    }	
-	
-	public static void main(String[] args) {
-    	System.out.println("Select the function to run [1 | 2 | 3]");	
-    	System.out.println("1. 3x");
-        System.out.println("2. x^2");
-        System.out.println("3. 2x-2");
-    
-    	Scanner in = new Scanner(System.in);
-    	int choice = in.nextInt();
-    	
-        if(choice == 1){
-            System.out.println("\n3x");
-            fistFunction();
-        }else if(choice == 2){
-            System.out.println("\nx^2");
-            secondFunction();
-        }else if(choice == 3){
-            System.out.println("\n2x-2");
-            thirdFunction();
-        }else{
-            System.out.println("Choose from 1 to 3!!");
+        Set<Integer> setS = new HashSet<Integer>(); 
+        Set<Integer> setT = new HashSet<Integer>();
+
+        //Creating sets S
+        System.out.println("Length of S: ");
+        Scanner S = new Scanner(System.in);
+        int sLength = S.nextInt();  
+        System.out.println("Enter sets for S: " );
+        for(int i = 0; i < sLength; i++){
+            int sets = S.nextInt();
+            setS.add(sets);
         }
         
-        System.out.println("An injective function is a function that maps distinct elements of its domain to distinct elements of its codomain.");
-		
-	}
+        //Creating sets T
+        System.out.println("Length of T: ");
+        Scanner T = new Scanner(System.in);
+        int tLength = T.nextInt();  
+        System.out.println("Enter sets for T: " );
+        for(int i = 0; i < tLength; i++){
+            int sets = T.nextInt();
+            setT.add(sets);
+        }
+    
+        List<Integer> S_list = new ArrayList<Integer>(setS);
+        List<Integer> T_list = new ArrayList<Integer>(setT);
+
+        Set<Set<Integer>> ps = new HashSet<Set<Integer>>();
+        
+        // [1,2] set size is 2, there are 4 subsets
+        //  0 0 = 0 { }
+        //  0 1 = 1 { 2 }
+        //  1 0 = 2 { 1 }
+        //  1 1 = 3 { 1, 2 }
+        
+        // 1 0 1 
+        //     1 => include this part of the set
+        
+        //   1 0
+        //     0 => do not include this part of the set
+            
+        //     1
+        //     1 => include this part of the set
+            
+        //  0001 = 1 = 2^0 = 1
+        //  0010 = 2 = 2^1 = 2
+        //  0100 = 4 = 2^2 = 4
+        
+        // 1 being shifted to the left * sLength.
+        for( int i = 0; i < (1 << sLength); i++){
+        // int s = int(Math.pow(2, sLength));
+        // int() casting.
+        
+            Set<Integer> current = new HashSet<Integer>();
+            for( int j = 0; j < sLength; j++ )
+                if( (i >> j) % 2 == 1 )
+                    current.add(S_list.get(j));
+            ps.add(current);
+        }
+        System.out.println("P(s) = " + ps);
+     
+        System.out.print("S x T = ");
+        for (int i = 0; i < sLength; i++) 
+            for (int j = 0; j < tLength; j++)
+                System.out.print( "[{"+ S_list.get(i)+"," + T_list.get(j)+"}]");
+            System.out.println("");
+
+		Set<Integer> union = new HashSet<Integer>(setS);
+		union.addAll(setT);
+		System.out.println("𝑆 ∪ 𝑇 = " + union);
+
+        Set<Integer> intersection = new HashSet<Integer>(setS);
+		intersection.retainAll(setT);
+		System.out.println("𝑆 ∩ 𝑇 = " + intersection);
+
+        Set<Integer> difference = new HashSet<Integer>(setS);  
+        difference.removeAll(setT);  
+        System.out.println("𝑆 - 𝑇 = " + difference);  
+
+        Set<Integer> complement = new HashSet<Integer>(setS);  
+        complement.addAll(setT);
+        complement.removeAll(setS);
+        System.out.println("𝑆' = " + complement);
+
+    }
 }
