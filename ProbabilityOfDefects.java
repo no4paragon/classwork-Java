@@ -34,7 +34,7 @@ public class ProbabilityOfDefects{
 	   
 	    //What is the probability that out of 100 circuit boards made at least 3 have defects?
 	    long fourth = nCr(100,3).longValue();
-	    double case4 = fourth * calc(3)  + case1 + case2 + case3;;
+	    double case4 = 1 - case1 - case2 - case3;
 	    
         System.out.println("There is a probability of " + String.format("%.5f", case1) + " to have 0 defects in 100 circuit boards.");
         System.out.println("There is a probability of " + String.format("%.5f", case2) + " to have 1 defects in 100 circuit boards.");
