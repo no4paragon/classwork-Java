@@ -130,15 +130,14 @@ class BinaryTree{
         StringBuilder sb = new StringBuilder();
         sb.append(root.getValue());
 
-        String pointerRight = "└──";
-        String pointerLeft = (root.getRight() != null) ? "├──" : "└──";
+        String pointerRight = "└─>";
+        String pointerLeft = (root.getRight() != null) ? "├─<" : "└─<";
 
         traverseNodes(sb, "", pointerLeft, root.getLeft(), root.getRight() != null);
         traverseNodes(sb, "", pointerRight, root.getRight(), false);
 
         return sb.toString();
     }
-
 
     public void traverseNodes(StringBuilder sb, String padding, String pointer, Node node, boolean hasRightSibling) {
 
@@ -157,8 +156,8 @@ class BinaryTree{
             }
 
             String paddingForBoth = paddingBuilder.toString();
-            String pointerRight = "└──";
-            String pointerLeft = (node.getRight() != null) ? "├──" : "└──";
+            String pointerRight = "└─>";
+            String pointerLeft = (node.getRight() != null) ? "├─<" : "└─<";
 
             traverseNodes(sb, paddingForBoth, pointerLeft, node.getLeft(), node.getRight() != null);
             traverseNodes(sb, paddingForBoth, pointerRight, node.getRight(), false);
